@@ -3,6 +3,7 @@ package com.spring.security.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,13 +18,16 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//@Entity
-//@Table(name = "users")
+@Builder
+@Entity
+@Table(name = "users")
 public class User implements UserDetails {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(unique = true)
     String username;
     String password;
 
@@ -32,8 +36,8 @@ public class User implements UserDetails {
     boolean active = true;
 
 
-    public List<String> getRoles(){
-        return Arrays.asList(this.roles.split(","));
+    public static List<String> getRoles(String roles){
+        return Arrays.asList(roles.split(","));
     }
 
     @Override
@@ -41,7 +45,7 @@ public class User implements UserDetails {
 
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        getRoles().forEach(
+        getRoles(this.roles).forEach(
                 role -> authorities.add(new SimpleGrantedAuthority(role))
         );
 
