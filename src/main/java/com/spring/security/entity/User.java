@@ -28,12 +28,12 @@ public class User implements UserDetails {
     private Long id;
 
     @Column(unique = true)
-    String username;
-    String password;
+    private String username;
+    private String password;
 
-    String roles;
+    private String roles;
 
-    boolean active = true;
+    private boolean active = true;
 
 
     public static List<String> getRoles(String roles){

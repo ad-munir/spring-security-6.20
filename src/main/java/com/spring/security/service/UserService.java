@@ -27,9 +27,11 @@ public class UserService implements UserDetailsService {
     UserRepository userRepo;
 
     @Autowired
+//    @Lazy
     PasswordEncoder passwordEncoder;
 
     @Autowired
+//    @Lazy
     private AuthenticationManager authenticationManager;
 
     @Override
@@ -53,7 +55,8 @@ public class UserService implements UserDetailsService {
         User user = User.builder()
                 .username(request.getUsername())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .roles("USER")
+                .roles("ROLE_USER")
+                .active(true)
                 .build();
 
         user = userRepo.save(user);
